@@ -10,44 +10,45 @@ const ExpenseForm = () => {
   const [currency, setCurrency] = useState('');
 
   const handleSubmit = (e) => {
-    debugger;
+    e.preventDefault();
+    console.log(desc);
+    console.log(amount);
+    console.log(currency);
   }
 
   const handleChange = (e) => {
-    debugger;
+    let value = e.target.value;
+    let id = e.target.id;
+
+    if (id === 'description') setDesc(value);
+    if (id === 'amount') setAmount(value);
+    if (id === 'currency') setCurrency(value);
   }
 
   return (
-    // <form onSubmit={handleSubmit}>
-    //     <input type="text" name="description" placeholder="Enter description" onChange={handleChange}/>
-    //     <input type="number" name="amount" placeholder="Enter amount" onChange={handleChange}/>
-    //     <input type="text" name="currency" placeholder="Enter currency" onChange={handleChange}/>
-    //     <button type="submit">Submit Expense</button>
-    // </form>
-
     <Form onSubmit={handleSubmit}>
-      <Form.Group as={Row} controlId="formHorizontalDescription">
+      <Form.Group as={Row} controlId="description">
         <Form.Label column sm={2}>
           Description
         </Form.Label>
         <Col sm={10}>
-          <Form.Control type="text" placeholder="Description" />
+          <Form.Control type="text" placeholder="Description" onChange={handleChange}/>
         </Col>
       </Form.Group>
-      <Form.Group as={Row} controlId="formHorizontalAmount">
+      <Form.Group as={Row} controlId="amount">
         <Form.Label column sm={2}>
           Amount
         </Form.Label>
         <Col sm={10}>
-          <Form.Control type="number" placeholder="Amount" />
+          <Form.Control type="number" placeholder="Amount" onChange={handleChange} />
         </Col>
       </Form.Group>
-      <Form.Group as={Row} controlId="formHorizontalCurrency">
+      <Form.Group as={Row} controlId="currency">
         <Form.Label column sm={2}>
           Currency
         </Form.Label>
         <Col sm={10}>
-          <Form.Control type="text" placeholder="Currency" />
+          <Form.Control type="text" placeholder="Currency" onChange={handleChange}/>
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
