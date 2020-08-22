@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ExpenseForm from './components/ExpenseForm/ExpenseForm';
+import ExpenseList from './components/ExpenseList/ExpenseList';
 import './App.css';
 
 const expenses = {
@@ -14,10 +15,21 @@ const expenses = {
 };
 
 function App() {
+  const [expenseData, setData] = useState([]);
+  const add = (data) => {
+    expenses.data.push(data);
+
+    setData([...expenses.data]);
+  };
+  
+  useEffect(() => {
+    setData(expenses.data);
+  }, [expenses]);
 
   return (
     <div className="App">
-      <ExpenseForm expenses={expenses}/>
+      <ExpenseForm expenses={expenses} add={add} />
+      <ExpenseList expenseData={expenseData}/>
     </div>
   );
 }

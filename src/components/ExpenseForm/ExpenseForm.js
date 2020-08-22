@@ -4,9 +4,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button'
 
-const ExpenseForm = ({ expenses }) => {
+const ExpenseForm = ({ expenses, add }) => {
   const [desc, setDesc] = useState('');
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
   const [currency, setCurrency] = useState('');
   const [currentTotal, setCurrentTotal] = useState(0);
 
@@ -27,7 +27,8 @@ const ExpenseForm = ({ expenses }) => {
     }
     
     if (data.length < 5 && expense.amount <= 1000 && currentTotal <= 1000) {
-      data.push(expense);
+      expense.id = data.length;
+      add(expense);
     } 
         
     setDesc('');
@@ -50,7 +51,7 @@ const ExpenseForm = ({ expenses }) => {
           Amount
         </Form.Label>
         <Col sm={10}>
-          <Form.Control type="number" value={amount} placeholder="Amount" onChange={e => setAmount(Number(e.target.value))} />
+          <Form.Control type="text" value={amount} placeholder="Amount" onChange={e => setAmount(Number(e.target.value))} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="currency">
