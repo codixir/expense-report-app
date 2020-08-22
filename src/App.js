@@ -35,7 +35,7 @@ function App() {
 
   return (
     <div className="App">
-      <Form class="form" onSubmit={handleSubmit}>
+      <Form className="form" onSubmit={handleSubmit}>
         <Button type="submit" className="btn-submit-expenses">Submit Expenses</Button>  
       </Form>
       <ExpenseForm expenses={expenses} add={add} />
