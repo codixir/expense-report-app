@@ -4,25 +4,35 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button'
 
-const ExpenseForm = () => {
+const ExpenseForm = ({ expenses }) => {
   const [desc, setDesc] = useState('');
   const [amount, setAmount] = useState(0);
   const [currency, setCurrency] = useState('');
+  const [currentTotal, setCurrentTotal] = useState(0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(desc);
-    console.log(amount);
-    console.log(currency);
-  }
 
-  const handleChange = (e) => {
-    let value = e.target.value;
-    let id = e.target.id;
+    const expense = {
+      description: desc,
+      amount: amount,
+      currency: currency
+    };
 
-    if (id === 'description') setDesc(value);
-    if (id === 'amount') setAmount(value);
-    if (id === 'currency') setCurrency(value);
+    const data = expenses.data;
+
+    if (data.length) {
+      let total = data.reduce( ( sum, { amount } ) => sum + amount , 0)
+      setCurrentTotal(total);
+    }
+    
+    if (data.length < 5 && expense.amount <= 1000 && currentTotal <= 1000) {
+      data.push(expense);
+    } 
+        
+    setDesc('');
+    setAmount(0);
+    setCurrency('');  
   }
 
   return (
@@ -32,7 +42,7 @@ const ExpenseForm = () => {
           Description
         </Form.Label>
         <Col sm={10}>
-          <Form.Control type="text" placeholder="Description" onChange={handleChange}/>
+          <Form.Control type="text" value={desc} placeholder="Description" onChange={e => setDesc(e.target.value)}/>
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="amount">
@@ -40,7 +50,7 @@ const ExpenseForm = () => {
           Amount
         </Form.Label>
         <Col sm={10}>
-          <Form.Control type="number" placeholder="Amount" onChange={handleChange} />
+          <Form.Control type="number" value={amount} placeholder="Amount" onChange={e => setAmount(Number(e.target.value))} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="currency">
@@ -48,7 +58,7 @@ const ExpenseForm = () => {
           Currency
         </Form.Label>
         <Col sm={10}>
-          <Form.Control type="text" placeholder="Currency" onChange={handleChange}/>
+          <Form.Control type="text" value={currency} placeholder="Currency" onChange={e => setCurrency(e.target.value)}/>
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
